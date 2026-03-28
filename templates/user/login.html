@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'components/_user_style.html' %}
+
+<div class="auth-container">
+    <div class="auth-bg-circle c1"></div>
+    <div class="auth-bg-circle c2"></div>
+    
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Xush kelibsiz</h1>
+            <p class="auth-subtitle">Davom etish uchun hisobingizga kiring</p>
+        </div>
+        
+        <form action="{% url 'home' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="username">Foydalanuvchi nomi</label>
+                <input type="text" id="username" name="username" class="form-input" placeholder="Ismingizni kiriting" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="password">Parol</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+            </div>
+            
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    <span>Eslab qolish</span>
+                </label>
+                <a href="#" class="forgot-pwd">Parolni unutdingizmi?</a>
+            </div>
+            
+            <button type="submit" class="auth-btn">
+                Kirish <span style="font-size:1.2rem;">→</span>
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            Hisobingiz yo'qmi? <a href=" {% url 'register' %} " class="auth-link">Ro'yxatdan o'tish</a>
+        </div>
+    </div>
+</div>
+
+{% block footer %}
+{% endblock footer %}
+{% endblock content %}

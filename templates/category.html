@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block navbar %}
+<!-- NAVBAR -->
+{% endblock navbar %}
+{% include "components/_navbar.html" %}
+{% block content %}
+
+  <!-- PAGE BANNER -->
+  <div class="page-banner">
+    <div class="breadcrumb">
+      <a href="index.html">🏠 Asosiy</a>
+      <span class="sep">›</span>
+      <a href="index.html#categories">Kategoriyalar</a>
+      <span class="sep">›</span>
+      <span class="current" id="categoryBreadcrumb">Yuklanmoqda...</span>
+    </div>
+    <h1 id="categoryTitle">Yuklanmoqda...</h1>
+    <p id="categorySubtitle">Mahsulotlar qidirilmoqda...</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <section class="section">
+
+    <!-- SIDEBAR + PRODUCTS LAYOUT -->
+    <div style="display: grid; grid-template-columns: 240px 1fr; gap: 2.5rem; align-items: start;">
+
+      <!-- SIDEBAR -->
+      <aside style="position: sticky; top: calc(var(--navbar-height) + 1.5rem);">
+
+        <!-- All Categories -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.2rem;">
+          <h3 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 1rem;">📦 Kategoriyalar</h3>
+          <div id="sidebarCategories">
+            <!-- JS bilan to'ldiriladi -->
+          </div>
+        </div>
+
+        <!-- Price Filter -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.2rem;">
+          <h3 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 1rem;">💰 Narx oralig'i</h3>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 0.8rem;">
+            <input type="number" placeholder="Dan" style="flex:1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; color: var(--text-primary); font-size: 0.85rem; font-family: var(--font-body); outline: none; width: 100%;">
+            <input type="number" placeholder="Gacha" style="flex:1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; color: var(--text-primary); font-size: 0.85rem; font-family: var(--font-body); outline: none; width: 100%;">
+          </div>
+          <button class="btn btn-primary btn-sm" style="width: 100%; justify-content: center;">Qo'llash</button>
+        </div>
+
+        <!-- Rating Filter -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem;">
+          <h3 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 1rem;">⭐ Reyting</h3>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer; color: var(--text-secondary);">
+              <input type="radio" name="rating" value="4" style="accent-color: var(--accent);">
+              <span style="color: #fbbf24;">★★★★</span> va undan yuqori
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer; color: var(--text-secondary);">
+              <input type="radio" name="rating" value="3" style="accent-color: var(--accent);">
+              <span style="color: #fbbf24;">★★★</span> va undan yuqori
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer; color: var(--text-secondary);">
+              <input type="radio" name="rating" value="0" checked style="accent-color: var(--accent);">
+              Barchasi
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- PRODUCTS AREA -->
+      <div>
+        <!-- Filters & Sort Bar -->
+        <div class="filters-bar">
+          <button class="filter-btn active" data-filter="all">Barchasi</button>
+          <button class="filter-btn" data-filter="new">Yangi ✨</button>
+          <button class="filter-btn" data-filter="sale">Chegirmali 🔥</button>
+          <button class="filter-btn" data-filter="hot">Ommabop ⭐</button>
+          <select class="sort-select" id="sortSelect">
+            <option value="default">Saralash: Default</option>
+            <option value="price-asc">Narx: Arzon → Qimmat</option>
+            <option value="price-desc">Narx: Qimmat → Arzon</option>
+            <option value="rating">Reyting bo'yicha</option>
+            <option value="name">Nomi bo'yicha</option>
+          </select>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="product-grid" id="categoryProductsGrid">
+          <!-- JS bilan to'ldiriladi -->
+        </div>
+
+        <!-- Pagination -->
+        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 3rem;">
+          <button class="filter-btn active" style="width:40px; height:40px; padding:0; border-radius: var(--radius-sm);">1</button>
+          <button class="filter-btn" style="width:40px; height:40px; padding:0; border-radius: var(--radius-sm);">2</button>
+          <button class="filter-btn" style="width:40px; height:40px; padding:0; border-radius: var(--radius-sm);">3</button>
+          <button class="filter-btn" style="width:40px; height:40px; padding:0; border-radius: var(--radius-sm);">→</button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+{% endblock content %}
+
+<!-- FOOTER -->
+{% block footer %}
+{% include "layout/footer.html" %}
+{% endblock footer %}

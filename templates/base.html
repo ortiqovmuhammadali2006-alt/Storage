@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopVerse - Zamonaviy Internet Do'koni</title>
+    
+  {% include 'components/_style_and_static.html' %}
+  
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  {% block navbar %}
+  {% include 'components/_navbar.html' %}
+  {% endblock navbar %}
+
+  <div class="page-wrapper">
+    {% block content %}
+    {% endblock content %}
+  </div>
+
+  <!-- FOOTER -->
+  {% block footer %}
+  {% include 'layout/footer.html' %}
+  {% endblock footer %}
+
+  
+</body>
+</html>

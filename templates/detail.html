@@ -1,0 +1,223 @@
+  {% extends "base.html" %}
+  {% block navbar %}
+  <!-- NAVBAR -->
+   {% include "components/_navbar.html" %}
+  {% endblock navbar %}
+
+  {% block content %}
+
+  
+
+    <!-- BREADCRUMB -->
+    <div class="page-banner" style="padding: 1.5rem 5%;">
+      <div class="breadcrumb">
+        <a href="{% url 'home' %}">🏠 Asosiy</a>
+        <span class="sep">›</span>
+        <a href="index.html#categories">Kategoriyalar</a>
+        <span class="sep">›</span>
+        <span class="current" id="productBreadcrumbName"> {{ product.name }} </span>
+      </div>
+    </div>
+
+    <!-- PRODUCT DETAIL -->
+    <section class="section" id="productContent">
+      <div class="product-detail-layout">
+
+        <!-- GALLERY -->
+        <div class="product-gallery">
+          <div class="gallery-main">
+            <img id="first_image"
+                src="{{ product.get_image }}" width="150px" height="200px" alt="{{ product.name }}">
+          </div>
+          <div class="gallery-thumbnails">
+            {% for image in product.images.all %}
+            <div class="thumb active" onclick="switchImg(this, 0)">
+              <img id="on_click" src="{{ image.image.url }}" width="60px" height="80px" alt="{{ product.name }} thumbnail">
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- INFO -->
+        <div class="product-detail-info">
+          <span class="product-category-tag" id="productCategory"> {{ product.category.name }} </span>
+
+          <h1 id="productName"> {{ product.name }} </h1>
+
+          <div class="product-meta">
+            <div class="product-rating">
+              <span class="stars" id="productStars">★★★★★</span>
+              <span class="rating-count" id="productReviews">(0 ta sharh)</span>
+            </div>
+            <div class="stock-badge">Omborda mavjud: {% if product.is_available %}Ha{% else %}Yo'q{% endif %}</div>
+          </div>
+
+          <!-- PRICE BLOCK -->
+          <div class="price-block">
+            <div style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.5rem;">
+              <span class="price-main" id="productPrice">{{ product.price }} so'm</span>
+              <span class="price-was" id="productOldPrice"></span>
+              <span class="discount-pill" id="productDiscount" style="display:none"></span>
+            </div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.4rem;">
+              💳 Click yoki Payme orqali to'lang
+            </div>
+          </div>
+
+          <!-- DESCRIPTION -->
+          <p class="description-text" id="productDescription">
+            {{ product.description|linebreaks }}
+          </p>
+
+          <!-- QUANTITY -->
+          <div class="quantity-wrap">
+            <span class="qty-label">Miqdor: {{ product.quantity }} </span>
+            <div class="qty-control">
+              <button class="qty-btn" id="qtyMinus">−</button>
+              <input class="qty-input" type="number" id="qtyValue" value="1" min="1" max="99">
+              <button class="qty-btn" id="qtyPlus">+</button>
+            </div>
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="detail-actions">
+            <button class="btn btn-primary btn-lg" id="addToCartBtn" style="flex: 1;">
+              🛒 Savatga qo'shish
+            </button>
+            <button class="btn btn-outline" onclick="toggleWishlist(0, this)">🤍</button>
+            <button class="btn btn-outline" onclick="shareProduct()">📤</button>
+          </div>
+
+          <!-- FEATURES -->
+          <div class="product-features">
+            <div class="feature-item">
+              <div class="feature-icon">🚚</div>
+              <div>
+                <strong>Tezkor yetkazib berish</strong><br>
+                <span style="font-size: 0.82rem;">1-3 ish kuni ichida</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">↩️</div>
+              <div>
+                <strong>30 kunlik qaytarish</strong><br>
+                <span style="font-size: 0.82rem;">Muammosiz qaytarish kafolati</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">✅</div>
+              <div>
+                <strong>Original mahsulot</strong><br>
+                <span style="font-size: 0.82rem;">100% original, sifat kafolati bilan</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🛡️</div>
+              <div>
+                <strong>Kafolat xizmati</strong><br>
+                <span style="font-size: 0.82rem;">1 yil ishlab chiqaruvchi kafolati</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABS (Tavsif / Sharh / Xususiyatlar) -->
+      <div style="margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 2.5rem;">
+        <div style="display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem;">
+          <button class="tab-btn active" onclick="switchTab(this, 'desc')"
+                  style="padding: 1rem 1.8rem; font-size: 0.9rem; font-weight: 600; font-family: var(--font-body); background: none; border: none; border-bottom: 3px solid var(--accent); color: var(--text-primary); cursor: pointer; transition: var(--transition);">
+            📝 Tavsif
+          </button>
+          <button class="tab-btn" onclick="switchTab(this, 'specs')"
+                  style="padding: 1rem 1.8rem; font-size: 0.9rem; font-weight: 600; font-family: var(--font-body); background: none; border: none; border-bottom: 3px solid transparent; color: var(--text-muted); cursor: pointer; transition: var(--transition);">
+            📋 Xususiyatlar
+          </button>
+          <button class="tab-btn" onclick="switchTab(this, 'reviews')"
+                  style="padding: 1rem 1.8rem; font-size: 0.9rem; font-weight: 600; font-family: var(--font-body); background: none; border: none; border-bottom: 3px solid transparent; color: var(--text-muted); cursor: pointer; transition: var(--transition);">
+            ⭐ Sharhlar
+          </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tab-desc">
+          <p id="tabDescription" style="color: var(--text-secondary); line-height: 1.9; font-size: 0.95rem; max-width: 700px;">
+            Mahsulot haqida batafsil ma'lumot yuklanmoqda...
+          </p>
+        </div>
+
+        <div id="tab-specs" style="display: none;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.5rem; max-width: 700px;">
+            <div style="display: flex; justify-content: space-between; padding: 0.7rem 1rem; background: var(--surface); border-radius: var(--radius-sm); font-size: 0.9rem;">
+              <span style="color: var(--text-muted);">Brend</span>
+              <span style="font-weight: 600;" id="specBrand">—</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.7rem 1rem; background: var(--card-bg); border-radius: var(--radius-sm); font-size: 0.9rem;">
+              <span style="color: var(--text-muted);">Kategoriya</span>
+              <span style="font-weight: 600;" id="specCategory">—</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.7rem 1rem; background: var(--surface); border-radius: var(--radius-sm); font-size: 0.9rem;">
+              <span style="color: var(--text-muted);">Reyting</span>
+              <span style="font-weight: 600;" id="specRating">—</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.7rem 1rem; background: var(--card-bg); border-radius: var(--radius-sm); font-size: 0.9rem;">
+              <span style="color: var(--text-muted);">Ombor holati</span>
+              <span style="font-weight: 600; color: #4ade80;">Mavjud</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-reviews" style="display: none;">
+          <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 600px;">
+            <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <strong>Alisher T.</strong>
+                <span style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">Mahsulot juda yaxshi! Tezda yetib keldi, original ekan. Tavsiya qilaman.</p>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">2025-01-15</div>
+            </div>
+            <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <strong>Malika S.</strong>
+                <span style="color: #fbbf24; font-size: 0.85rem;">★★★★☆</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">Sifat yaxshi, narxi ham mos. Faqat yetkazib berish biroz kechikdi.</p>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">2025-01-10</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RELATED PRODUCTS -->
+      <div class="related-section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">O'xshash <span>Mahsulotlar</span></h2>
+          </div>
+        </div>
+        <div class="product-grid" id="relatedGrid">
+          <!-- JS bilan to'ldiriladi -->
+        </div>
+      </div>
+    </section>
+
+
+    <script>
+    document.querySelectorAll('#on_click').forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            document.getElementById('first_image').src = this.src;
+        });
+    });
+    </script>
+
+
+  {% endblock content %}
+
+
+  
+
+  <!-- FOOTER -->
+  {% block footer %}
+  {% endblock footer %}
+
