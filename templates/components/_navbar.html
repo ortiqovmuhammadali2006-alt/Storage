@@ -6,19 +6,20 @@
 
 <ul class="navbar-nav">
     <li><a href="{% url 'home' %}" class="active">🏠 Asosiy</a></li>
+    {% if category.slug %}
     <li>
-        {% if category.slug %}
         <a href="{% url 'category_detail' category.slug %}">
             {{ category.name }}
         </a>
-        {% endif %}
-    <li>
-    <a href="/cart/" class="cart-btn">
-        🛒 Savatcha
-        <span class="cart-badge cart-count" style="display:none">0</span>
-    </a>
     </li>
-    {% if not request.user.is_authenticated %}
+    {% endif %}
+    <li>
+        <a href="/cart/" class="cart-btn">
+            🛒 Savatcha
+            <span class="cart-badge cart-count" style="display:none">0</span>
+        </a>
+    </li>
+    {% if request.user.is_authenticated %}
         <li><a href="/user/logout/">🚪 Chiqish</a></li>
     {% else %}
         <li><a href="/user/login/">🔑 Kirish</a></li>

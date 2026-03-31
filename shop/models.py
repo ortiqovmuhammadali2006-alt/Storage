@@ -14,16 +14,31 @@ class Sticker(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nomi")
     slug = models.SlugField(unique=True)
-
     stickers = models.ManyToManyField(Sticker, blank=True)
 
     class Meta:
-        verbose_name = "Kategoriya "
+        verbose_name = "Kategoriya"
         verbose_name_plural = "Kategoriyalar"
         ordering = ["name"]
 
     def __str__(self):
         return self.name
+
+    def get_icon(self):
+        slug_map = {
+            "barchasi": "🛍️",
+            "all": "🛍️",
+            "kitob": "📚",
+            "book": "📚",
+            "sport": "⚽",
+            "futbol": "⚽",
+            "basketbol": "🏀",
+            "kiyim": "👕",
+            "poyabzal": "👟",
+            "telefon": "📱",
+            "elektronika": "💻",
+        }
+        return slug_map.get(self.slug.lower(), "📦")
 
 
 class Product(models.Model):
@@ -48,13 +63,13 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_image(self):
         product_images = self.images.all()
         if product_images:
             return product_images[0].image.url
         else:
-            return '___'
+            return "___"
 
 
 class ProductImage(models.Model):

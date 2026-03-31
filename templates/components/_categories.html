@@ -7,20 +7,22 @@
   </div>
 
   <div class="category-grid">
-    <a href="{% url 'home' %}">
-      <button class="snap-start flex-shrink-0 flex flex-col items-center gap-3 glass-card rounded-2xl p-5 w-32 text-center {% if request.path == '/' %} border-primary-500 border-opacity-50 group bg-primary-500/10 {% endif %}">
-        <div class="w-14 h-14 rounded-full bg-primary-500 flex items-center justify-center text-white text-2xl group-hover:scale-110 transition shadow-lg shadow-primary-500/40">
-          <i class="fas fa-hamburger"></i>
-        </div>
-        <span class="font-bold text-white">Barchasi</span>
-      </button>
-    </a>
-    {% for category in categories %}
     
+    <!-- Barchasi -->
+    <a href="{% url 'home' %}" class="category-card {% if request.path == '/' %} active {% endif %}">
+      <span class="category-icon"> 🛍️ </span>
+      <div class="category-name">Barchasi</div>
+    </a>
+
+    
+    {% for category in categories %}
     <a href="{% url 'category' category.slug %}" class="category-card">
-      <span class="category-icon"> {{ category.stickers.name }} </span>
+      <span class="category-icon">
+        {{ category.get_icon }}
+      </span>
       <div class="category-name">{{ category.name }}</div>
     </a>
     {% endfor %}
+
   </div>
 </section>
